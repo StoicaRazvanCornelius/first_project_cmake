@@ -13,8 +13,8 @@ configure_file(
     ${CMAKE_BINARY_DIR}/config.h     # Output file
 )        
 
-# Add the output directory to the include path
-include_directories(${CMAKE_BINARY_DIR})
+# Add the output directory to the include path #this is global
+#include_directories(${CMAKE_BINARY_DIR})
 
 # Make glob Sources variable with all files .cpp from src
 file(GLOB SOURCES "src/*.cpp")
@@ -22,6 +22,10 @@ file(GLOB SOURCES "src/*.cpp")
 #Make executable for project of type WIN32 with glob from sources
 add_executable(project_executable WIN32 ${SOURCES})
 
+#Add the output directory to the include path #this is target specific
+target_include_directories(project_executable PUBLIC
+                           "${CMAKE_BINARY_DIR}"
+                           )
 set_target_properties(project_executable PROPERTIES  # this ensures project code is compliant with standard 
     CXX_STANDARD 11          # Specify the minimum C++ standard (e.g., 17, 20, 23)
     CXX_STANDARD_REQUIRED ON # Enforce at least this standard
